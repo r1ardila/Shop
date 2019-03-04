@@ -3,10 +3,11 @@ namespace Shop.UIForms.ViewModels
 
 {
     using GalaSoft.MvvmLight.Command;
+    using Shop.UIForms.Views;
     using System.Windows.Input;
     using Xamarin.Forms;
 
-    public class LoginViewModule
+    public class LoginViewModule 
     {
 
         public string Email { get; set; }
@@ -46,9 +47,12 @@ namespace Shop.UIForms.ViewModels
 
             }
 
-            await Application.Current.MainPage.DisplayAlert("OK", "FUCK YEAH!!!", "Accept");
+            //await Application.Current.MainPage.DisplayAlert("OK", "FUCK YEAH!!!", "Accept");
 
-            return;
+            MainViewModel.GetInstance().Products = new ProductsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new ProductsPage());
+
+            
 
         }
     }
