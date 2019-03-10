@@ -13,7 +13,6 @@ namespace Shop.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using Shop.Web.Models;
 
-    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductRepository productRepository;
@@ -48,6 +47,7 @@ namespace Shop.Web.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -106,7 +106,7 @@ namespace Shop.Web.Controllers
             };
         }
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -193,6 +193,7 @@ namespace Shop.Web.Controllers
             return View(view);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

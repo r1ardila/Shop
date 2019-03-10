@@ -1,20 +1,28 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
-using Shop.Web.Data;
-
-[Route("api/[Controller]")]
-public class ProductsController : Controller
+namespace Shop.Web.Controllers.API
 {
-    private readonly IProductRepository productRepository;
+    using Data;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
-    public ProductsController(IProductRepository productRepository)
-    {
-        this.productRepository = productRepository;
-    }
 
-    [HttpGet]
-    public IActionResult GetProducts()
+    [Route("api/[Controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+    public class ProductsController : Controller
     {
-        return this.Ok(this.productRepository.GetAllWithUsers());
+        private readonly IProductRepository productRepository;
+
+        public ProductsController(IProductRepository productRepository)
+        {
+            this.productRepository = productRepository;
+        }
+
+        [HttpGet]
+        public IActionResult GetProducts()
+        {
+            return this.Ok(this.productRepository.GetAllWithUsers());
+        }
     }
 }

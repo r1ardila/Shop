@@ -1,6 +1,5 @@
 ﻿namespace Shop.Web.Data
 {
-   
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -25,6 +24,11 @@
         {
             await this.context.Database.EnsureCreatedAsync();
 
+            await this.userHelper.CheckRoleAsync("Admin");
+            await this.userHelper.CheckRoleAsync("Customer");
+
+
+            //ADD USER
             var user = await this.userHelper.GetUserByEmailAsync("ardiladm@hotmail.com");
             if (user == null)
             {
@@ -42,7 +46,20 @@
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                await this.userHelper.AddUserToRoleAsync(user, "Admin");
+
             }
+
+            var isInRole = await this.userHelper.IsUserInRoleAsync(user, "Admin");
+
+
+            if (!isInRole)
+            {
+                await this.userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+
+
 
             if (!this.context.Products.Any())
             {
